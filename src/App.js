@@ -1,4 +1,5 @@
 import './App.css'
+import './enhancements.css'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -10,6 +11,8 @@ import Services from './component/Services'
 import Portfolio from './component/portfolio'
 import Header from './component/header'
 import FooterSection from './component/Footer'
+import StickyCTA from './component/StickyCTA'
+import ExitIntent from './component/ExitIntent'
 
 function App() {
 	return (
@@ -43,6 +46,8 @@ function App() {
 					/>
 				</Routes>
 				<FooterSection />
+				<StickyCTA />
+				<ExitIntent />
 			</BrowserRouter>
 		</div>
 	)

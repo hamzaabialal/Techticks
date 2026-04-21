@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
 	FaLinkedin,
 	FaTwitter,
@@ -6,12 +7,34 @@ import {
 	FaAt,
 	FaEnvelope,
 	FaWhatsapp,
+	FaShieldAlt,
+	FaBolt,
+	FaCheckCircle,
 } from 'react-icons/fa'
 import { sendContactEmail } from '../lib/sendContactEmail'
 
 function ContactUs() {
+	const [sending, setSending] = useState(false)
+	const [showToast, setShowToast] = useState(false)
+
+	const handleSubmit = (e) => {
+		setSending(true)
+		sendContactEmail(e, {
+			onSuccess: () => {
+				setSending(false)
+				setShowToast(true)
+				setTimeout(() => setShowToast(false), 4500)
+			},
+			onError: () => setSending(false),
+		}).catch(() => {})
+	}
+
 	return (
 		<div>
+			<div className={`tt-form-success ${showToast ? 'show' : ''}`}>
+				✅ Message sent. We'll get back to you within a few hours.
+			</div>
+
 			<img
 				src='/contactrectleft.png'
 				alt=''
@@ -49,8 +72,10 @@ function ContactUs() {
 							</p>
 						</div>
 					</div>
-					<div>
+
+					<div className='tt-hero-cta-row'>
 						<button
+							className='tt-btn tt-btn-primary tt-btn-lg'
 							onClick={() => {
 								document
 									.getElementById('contact-p-right')
@@ -58,6 +83,11 @@ function ContactUs() {
 							}}>
 							Send Message
 						</button>
+					</div>
+
+					<div className='tt-hero-trust'>
+						<span className='tt-stars'>★★★★★</span>
+						<span>Response within hours · No sales pitch</span>
 					</div>
 				</div>
 			</section>
@@ -148,6 +178,46 @@ function ContactUs() {
 								</div>
 							</div>
 						</div>
+
+						{/* Trust reassurance row */}
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								gap: 12,
+								marginTop: 28,
+							}}>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: 10,
+									color: 'rgba(255,255,255,0.75)',
+								}}>
+								<FaShieldAlt style={{ color: '#10b981' }} />
+								<span>Your info stays private. Never shared.</span>
+							</div>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: 10,
+									color: 'rgba(255,255,255,0.75)',
+								}}>
+								<FaBolt style={{ color: '#10b981' }} />
+								<span>Reply within a few hours (Mon-Fri).</span>
+							</div>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: 10,
+									color: 'rgba(255,255,255,0.75)',
+								}}>
+								<FaCheckCircle style={{ color: '#10b981' }} />
+								<span>Free scoped plan — no sales pitch.</span>
+							</div>
+						</div>
 					</div>
 
 					{/* RIGHT SIDE FORM */}
@@ -156,25 +226,41 @@ function ContactUs() {
 						className='contact-p-right'>
 						<form
 							className='contact-p-form'
-							onSubmit={sendContactEmail}>
+							onSubmit={handleSubmit}>
 							<input
 								type='text'
 								name='user_name'
-								placeholder='Name'
+								placeholder='Your name'
 								required
+								minLength={2}
 							/>
 							<input
 								type='email'
 								name='user_email'
-								placeholder='Email'
+								placeholder='Work email'
 								required
 							/>
 							<textarea
 								name='message'
-								placeholder='Message'
-								required></textarea>
+								placeholder='What workflow should we kill? (e.g., lead routing, PDF extraction, CRM sync…)'
+								required
+								minLength={10}></textarea>
 
-							<button>Send Message</button>
+							<button
+								type='submit'
+								disabled={sending}
+								style={{ opacity: sending ? 0.6 : 1 }}>
+								{sending ? 'Sending…' : 'Send Message'}
+							</button>
+							<p
+								style={{
+									fontSize: 12,
+									color: 'rgba(255,255,255,0.5)',
+									marginTop: 12,
+								}}>
+								We reply within a few hours. No spam, no sales
+								pitch.
+							</p>
 						</form>
 					</div>
 				</div>

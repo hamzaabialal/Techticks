@@ -1,6 +1,8 @@
 import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import FinalCTA from './FinalCTA'
+import MetricsSection from './MetricsSection'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -105,58 +107,63 @@ function Portfolio() {
 	}, [])
 
 	return (
-		<section
-			className='portfolioPage'
-			ref={sectionRef}>
-			<div
-				className='portfolioPage-horizontal'
-				ref={horizontalRef}>
-				<div className='portfolioPage-container'>
-					<div className='main-content'>
-						<div className='heading p-m-heading'>
-							<h1>
-								<span>Automations</span>
-								<span>We</span>
-								<span>Ship.</span>
-								<br />
-								<span>Systems</span>
-								<span>That</span>
-								<span>Run.</span>
-							</h1>
+		<>
+			<section
+				className='portfolioPage'
+				ref={sectionRef}>
+				<div
+					className='portfolioPage-horizontal'
+					ref={horizontalRef}>
+					<div className='portfolioPage-container'>
+						<div className='main-content'>
+							<div className='heading p-m-heading'>
+								<h1>
+									<span>Automations</span>
+									<span>We</span>
+									<span>Ship.</span>
+									<br />
+									<span>Systems</span>
+									<span>That</span>
+									<span>Run.</span>
+								</h1>
+							</div>
 						</div>
 					</div>
+
+					{projects.map((project, index) => (
+						<div
+							key={index}
+							className='portfolioPage-container'>
+							<h2 className='portfolioPage-heading'>
+								{project.category}
+							</h2>
+
+							<div className='portfolioPage-card'>
+								<img
+									src={project.image}
+									alt={project.title}
+									loading='lazy'
+								/>
+							</div>
+
+							<div className='portfolioPage-content'>
+								<div className='portfolioPage-left'>
+									<h3>{project.title}</h3>
+									<p>{project.left}</p>
+								</div>
+
+								<div className='portfolioPage-right'>
+									<p>{project.right}</p>
+									<p>{project.stack}</p>
+								</div>
+							</div>
+						</div>
+					))}
 				</div>
-
-				{projects.map((project, index) => (
-					<div
-						key={index}
-						className='portfolioPage-container'>
-						<h2 className='portfolioPage-heading'>
-							{project.category}
-						</h2>
-
-						<div className='portfolioPage-card'>
-							<img
-								src={project.image}
-								alt={project.title}
-							/>
-						</div>
-
-						<div className='portfolioPage-content'>
-							<div className='portfolioPage-left'>
-								<h3>{project.title}</h3>
-								<p>{project.left}</p>
-							</div>
-
-							<div className='portfolioPage-right'>
-								<p>{project.right}</p>
-								<p>{project.stack}</p>
-							</div>
-						</div>
-					</div>
-				))}
-			</div>
-		</section>
+			</section>
+			<MetricsSection />
+			<FinalCTA />
+		</>
 	)
 }
 

@@ -14,6 +14,9 @@ import { GiBullseye } from 'react-icons/gi'
 import { TbArrowsCross } from 'react-icons/tb'
 import Slider from '../slider'
 import { useNavigate } from 'react-router-dom'
+import { FaArrowRight } from 'react-icons/fa'
+import MetricsSection from './MetricsSection'
+import FinalCTA from './FinalCTA'
 
 function Services() {
 	const navigate = useNavigate()
@@ -81,15 +84,31 @@ function Services() {
 							</p>
 						</div>
 					</div>
-					<div>
-						<button onClick={() => navigate('/contactUs')}>
-							Book a Call
+					<div className='tt-hero-cta-row'>
+						<button
+							className='tt-btn tt-btn-primary tt-btn-lg'
+							onClick={() => navigate('/contactUs')}>
+							Book a Free Audit <FaArrowRight />
 						</button>
-
-						<Slider />
+						<button
+							className='tt-btn tt-btn-ghost tt-btn-lg'
+							onClick={() => navigate('/portfolio')}>
+							See Case Studies
+						</button>
 					</div>
+
+					<div className='tt-hero-trust'>
+						<span className='tt-stars'>★★★★★</span>
+						<span>120+ production automations shipped</span>
+						<span className='tt-divider'></span>
+						<span>7-day average delivery</span>
+					</div>
+
+					<Slider />
 				</div>
 			</section>
+
+			<MetricsSection />
 			{/** why choose techticks */}
 			<section class='why-choose-section'>
 				<h1>Why Choose TechTicks?</h1>
@@ -550,6 +569,8 @@ function Services() {
 			{/**testimonials */}
 
 			<Testimonials />
+
+			<FinalCTA />
 		</div>
 	)
 }

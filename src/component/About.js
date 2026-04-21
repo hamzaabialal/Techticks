@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import founderimage1 from '../component/images/about-card1.png'
 import founderimage2 from '../component/images/about-card2.png'
 import { useNavigate } from 'react-router-dom'
+import { FaArrowRight } from 'react-icons/fa'
+import FinalCTA from './FinalCTA'
 
 function About() {
 	const navigate = useNavigate()
@@ -121,10 +123,22 @@ function About() {
 							</p>
 						</div>
 					</div>
-					<div>
-						<button onClick={() => navigate('/contactUs')}>
-							Book a Call
+					<div className='tt-hero-cta-row'>
+						<button
+							className='tt-btn tt-btn-primary tt-btn-lg'
+							onClick={() => navigate('/contactUs')}>
+							Book a Free Audit <FaArrowRight />
 						</button>
+						<button
+							className='tt-btn tt-btn-ghost tt-btn-lg'
+							onClick={() => navigate('/portfolio')}>
+							See Our Work
+						</button>
+					</div>
+
+					<div className='tt-hero-trust'>
+						<span className='tt-stars'>★★★★★</span>
+						<span>Trusted by 30+ operators worldwide</span>
 					</div>
 				</div>
 			</section>
@@ -292,6 +306,8 @@ function About() {
 					</div>
 				</div>
 			</section>
+
+			<FinalCTA />
 		</div>
 	)
 }

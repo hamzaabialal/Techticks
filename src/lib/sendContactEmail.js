@@ -7,23 +7,32 @@ const TEMPLATE_ID =
 const PUBLIC_KEY =
 	process.env.REACT_APP_EMAILJS_PUBLIC_KEY || '_OkziMgM7xZC51NDs'
 
-export function sendContactEmail(e) {
+/**
+ * Send the contact form. Returns a Promise that resolves on success
+ * and rejects on failure so the caller can render a toast / error state.
+ * If no onSuccess/onError callbacks are provided it falls back to alerts
+ * (legacy behavior for callers that haven't been upgraded).
+ */
+export function sendContactEmail(e, opts = {}) {
 	e.preventDefault()
-
+	const form = e.target
 	const templateParams = {
-		user_name: e.target.user_name.value,
-		user_email: e.target.user_email.value,
-		message: e.target.message.value,
+		user_name: form.user_name.value,
+		user_email: form.user_email.value,
+		message: form.message.value,
 	}
 
 	return emailjs
 		.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
 		.then(() => {
-			alert('Message sent successfully ✅')
-			e.target.reset()
+			form.reset()
+			if (opts.onSuccess) opts.onSuccess()
+			else alert('Message sent successfully ✅')
 		})
 		.catch((error) => {
-			console.log(error)
-			alert('Failed ❌')
+			console.error('EmailJS error:', error)
+			if (opts.onError) opts.onError(error)
+			else alert('Failed ❌')
+			throw error
 		})
 }

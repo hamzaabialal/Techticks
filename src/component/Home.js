@@ -1,7 +1,6 @@
-import { useState, useLayoutEffect, useRef } from 'react'
+import { useState, useLayoutEffect, useRef, lazy, Suspense } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import EnhancedParticlesLikeSpline from '../component/SplineBackground'
 
 import picture1 from '../component/images/slideriImages/Group 319.png'
 import picture2 from '../component/images/slideriImages/Mask group.png'
@@ -49,6 +48,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Testimonials from './testonomial'
 import { useNavigate } from 'react-router-dom'
 import { sendContactEmail } from '../lib/sendContactEmail'
+import MetricsSection from './MetricsSection'
+import HowItWorks from './HowItWorks'
+import TrustBar from './TrustBar'
+import FinalCTA from './FinalCTA'
+
+const EnhancedParticlesLikeSpline = lazy(() =>
+	import('../component/SplineBackground'),
+)
 
 const ourWork1 = encodeURI('/Howstyo Owner Portal Revolut.png')
 const ourWork2 = encodeURI(
@@ -84,9 +91,23 @@ function Home() {
 	]
 
 	const [openIndex, setOpenIndex] = useState(null)
+	const [sending, setSending] = useState(false)
+	const [showToast, setShowToast] = useState(false)
 
 	const toggleFAQ = (index) => {
 		setOpenIndex(openIndex === index ? null : index)
+	}
+
+	const handleSubmit = (e) => {
+		setSending(true)
+		sendContactEmail(e, {
+			onSuccess: () => {
+				setSending(false)
+				setShowToast(true)
+				setTimeout(() => setShowToast(false), 4000)
+			},
+			onError: () => setSending(false),
+		}).catch(() => {})
 	}
 	const containerRef = useRef(null)
 	const cardsRef = useRef(null)
@@ -152,11 +173,16 @@ function Home() {
 
 	return (
 		<div>
+			<div className={`tt-form-success ${showToast ? 'show' : ''}`}>
+				✅ Message sent. We'll get back to you within a few hours.
+			</div>
 			<section
 				id='Home'
 				className='home-page'>
-				{/* 3D Background */}
-				<EnhancedParticlesLikeSpline />
+				{/* 3D Background - lazy loaded so it doesn't block first paint */}
+				<Suspense fallback={null}>
+					<EnhancedParticlesLikeSpline />
+				</Suspense>
 
 				<hr style={{ color: 'white' }} />
 
@@ -184,13 +210,44 @@ function Home() {
 						</p>
 					</div>
 
-					<div>
-						<button onClick={() => navigate('/contactUs')}>
-							Book a Call
+					<div className='tt-hero-cta-row'>
+						<button
+							className='tt-btn tt-btn-primary tt-btn-lg'
+							onClick={() => navigate('/contactUs')}>
+							Book a Free Audit <FaArrowRight />
 						</button>
+						<button
+							className='tt-btn tt-btn-ghost tt-btn-lg'
+							onClick={() => navigate('/portfolio')}>
+							See Case Studies
+						</button>
+					</div>
+
+					<div className='tt-hero-trust'>
+						<span className='tt-stars'>★★★★★</span>
+						<span>Rated 5.0 by 30+ operators</span>
+						<span className='tt-divider'></span>
+						<span>Based in the US · Serving global teams</span>
+					</div>
+
+					<div className='tt-hero-badges'>
+						<span className='tt-badge'>
+							<span className='tt-badge-dot'></span>
+							Accepting 3 new projects in May
+						</span>
+						<span className='tt-badge'>n8n Certified</span>
+						<span className='tt-badge'>OpenAI · LangChain</span>
+						<span className='tt-badge'>HubSpot · Salesforce</span>
+						<span className='tt-badge'>Make.com · Zapier</span>
 					</div>
 				</div>
 			</section>
+
+			{/* TRUST BAR */}
+			<TrustBar />
+
+			{/* METRICS */}
+			<MetricsSection />
 
 			{/**slider */}
 			<section>
@@ -446,6 +503,9 @@ function Home() {
 					</a>
 				</div>
 			</section>
+
+			{/* HOW IT WORKS */}
+			<HowItWorks />
 
 			{/**recomend */}
 			<section>
@@ -715,25 +775,40 @@ function Home() {
 					<div className='contact-right'>
 						<form
 							className='contact-form'
-							onSubmit={sendContactEmail}>
+							onSubmit={handleSubmit}>
 							<input
 								type='text'
 								name='user_name'
-								placeholder='Name'
+								placeholder='Your name'
 								required
+								minLength={2}
 							/>
 							<input
 								type='email'
 								name='user_email'
-								placeholder='Email'
+								placeholder='Work email'
 								required
 							/>
 							<textarea
 								name='message'
-								placeholder='Message'
-								required></textarea>
+								placeholder='What workflow should we kill? (e.g., lead routing, PDF extraction, CRM sync…)'
+								required
+								minLength={10}></textarea>
 
-							<button>Send Message</button>
+							<button
+								type='submit'
+								disabled={sending}
+								style={{ opacity: sending ? 0.6 : 1 }}>
+								{sending ? 'Sending…' : 'Send Message'}
+							</button>
+							<p
+								style={{
+									fontSize: 12,
+									color: 'rgba(255,255,255,0.5)',
+									marginTop: 12,
+								}}>
+								We reply within a few hours. No spam, no sales pitch.
+							</p>
 						</form>
 					</div>
 				</div>
@@ -788,6 +863,9 @@ function Home() {
 				</div>
 			</div>
 			<CtaCard />
+
+			{/* FINAL CTA */}
+			<FinalCTA />
 		</div>
 	)
 }
