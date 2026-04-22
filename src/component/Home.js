@@ -1,28 +1,5 @@
-import { useState, useLayoutEffect, useRef, lazy, Suspense } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react'
 
-import picture1 from '../component/images/slideriImages/Group 319.png'
-import picture2 from '../component/images/slideriImages/Mask group.png'
-import picture3 from '../component/images/slideriImages/Mask group-1.png'
-import picture4 from '../component/images/slideriImages/Mask group-2.png'
-import picture5 from '../component/images/slideriImages/Mask group-3.png'
-import picture6 from '../component/images/slideriImages/Mask group-4.png'
-import picture7 from '../component/images/slideriImages/Group 308.png'
-import picture8 from '../component/images/slideriImages/Group 309.png'
-import picture9 from '../component/images/slideriImages/Group 310.png'
-import picture10 from '../component/images/slideriImages/Group 311.png'
-import picture11 from '../component/images/slideriImages/Group 312.png'
-import picture12 from '../component/images/slideriImages/Group 313.png'
-import picture13 from '../component/images/slideriImages/Group 314.png'
-import picture14 from '../component/images/slideriImages/Group 315.png'
-import picture15 from '../component/images/slideriImages/Group 316.png'
-import picture16 from '../component/images/slideriImages/Group 317.png'
-import picture17 from '../component/images/slideriImages/Group 318.png'
-import picture18 from '../component/images/slideriImages/Group 319.png'
-import picture19 from '../component/images/slideriImages/Group 320.png'
-import picture20 from '../component/images/slideriImages/Group 321.png'
-import picture21 from '../component/images/slideriImages/Group 322.png'
 import Slider from '../slider'
 import CtaCard from './Cta-card'
 
@@ -39,11 +16,6 @@ import {
 	FaChevronUp,
 } from 'react-icons/fa'
 
-import { Activity, Globe, Code } from 'lucide-react'
-import { FaReact } from 'react-icons/fa'
-import { BsLaptop } from 'react-icons/bs'
-import { FaMobileScreen } from 'react-icons/fa6'
-import { PiFolderLockFill, PiCellTowerDuotone } from 'react-icons/pi'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Testimonials from './testonomial'
 import { useNavigate } from 'react-router-dom'
@@ -52,17 +24,20 @@ import MetricsSection from './MetricsSection'
 import HowItWorks from './HowItWorks'
 import TrustBar from './TrustBar'
 import FinalCTA from './FinalCTA'
+import AutomationBrands from './AutomationBrands'
+import { SERVICES } from './servicesData'
 
 const EnhancedParticlesLikeSpline = lazy(() =>
 	import('../component/SplineBackground'),
 )
 
-const ourWork1 = encodeURI('/Howstyo Owner Portal Revolut.png')
-const ourWork2 = encodeURI(
-	'/File Downloader Slack + PDF Extraction Data from PDFs .png',
-)
-
-gsap.registerPlugin(ScrollTrigger)
+const encodePath = (p) =>
+	p
+		.split('/')
+		.map((seg) => encodeURIComponent(seg))
+		.join('/')
+const ourWork1 = encodePath('/Howstyo Owner Portal Revolut.png')
+const ourWork2 = encodePath('/File Downloader Slack PDF Extraction.png')
 
 function Home() {
 	const navigate = useNavigate()
@@ -109,67 +84,56 @@ function Home() {
 			onError: () => setSending(false),
 		}).catch(() => {})
 	}
-	const containerRef = useRef(null)
-	const cardsRef = useRef(null)
+	const servicesTrackRef = useRef(null)
+	const servicesPausedRef = useRef(false)
+	const servicesInteractRef = useRef(false)
+	const servicesInteractTimerRef = useRef(null)
 
-	useLayoutEffect(() => {
-		const cards = gsap.utils.toArray('.s-card')
-		const totalCards = cards.length
-
-		if (totalCards === 0 || !containerRef.current) return
-
-		const ctx = gsap.context(() => {
-			gsap.to(cardsRef.current, {
-				x: () => -(cardsRef.current.scrollWidth - window.innerWidth),
-				ease: 'none',
-				scrollTrigger: {
-					trigger: containerRef.current,
-					start: 'top top',
-					end: () =>
-						`+=${cardsRef.current.scrollWidth - window.innerWidth}`,
-					scrub: 1.5,
-					pin: true,
-					pinSpacing: true,
-					anticipatePin: 1,
-					invalidateOnRefresh: true,
-
-					snap: {
-						snapTo: 1 / (totalCards - 1),
-						duration: { min: 0.3, max: 0.8 },
-						ease: 'power1.out',
-					},
-
-					markers: false,
-				},
-			})
-		}, containerRef)
-
-		return () => ctx.revert()
+	const markServicesInteracting = useCallback(() => {
+		servicesInteractRef.current = true
+		if (servicesInteractTimerRef.current)
+			clearTimeout(servicesInteractTimerRef.current)
+		servicesInteractTimerRef.current = setTimeout(() => {
+			servicesInteractRef.current = false
+		}, 1600)
 	}, [])
 
-	const partnerLogos = [
-		{ src: picture1, style: { height: '30px' } },
-		{ src: picture2 },
-		{ src: picture3 },
-		{ src: picture4 },
-		{ src: picture5 },
-		{ src: picture6 },
-		{ src: picture7, style: { height: '30px' } },
-		{ src: picture8, style: { height: '30px' } },
-		{ src: picture9, style: { height: '30px' } },
-		{ src: picture10, style: { height: '30px' } },
-		{ src: picture11, style: { height: '30px' } },
-		{ src: picture12, style: { height: '30px' } },
-		{ src: picture13, style: { height: '30px' } },
-		{ src: picture14, style: { height: '30px' } },
-		{ src: picture15, style: { height: '30px' } },
-		{ src: picture16, style: { height: '30px' } },
-		{ src: picture17, style: { height: '30px' } },
-		{ src: picture18, style: { height: '30px' } },
-		{ src: picture19, style: { height: '30px' } },
-		{ src: picture20, style: { height: '30px' } },
-		{ src: picture21, style: { height: '30px' } },
-	]
+	useEffect(() => {
+		const el = servicesTrackRef.current
+		if (!el) return
+
+		let rafId
+		let last = performance.now()
+		const SPEED = 28 // px/sec — slow and continuous
+
+		const tick = (now) => {
+			const dt = (now - last) / 1000
+			last = now
+
+			if (!servicesPausedRef.current && !servicesInteractRef.current) {
+				el.scrollLeft += SPEED * dt
+				const half = el.scrollWidth / 2
+				if (el.scrollLeft >= half) {
+					el.scrollLeft -= half
+				}
+			}
+			rafId = requestAnimationFrame(tick)
+		}
+		rafId = requestAnimationFrame(tick)
+
+		return () => cancelAnimationFrame(rafId)
+	}, [])
+
+	const scrollServicesBy = (dir) => {
+		const el = servicesTrackRef.current
+		if (!el) return
+		const card = el.querySelector('.s-card')
+		const gap = 32
+		const cardWidth = card ? card.offsetWidth + gap : 420
+		markServicesInteracting()
+		el.scrollBy({ left: dir * cardWidth, behavior: 'smooth' })
+	}
+
 
 	return (
 		<div>
@@ -249,31 +213,8 @@ function Home() {
 			{/* METRICS */}
 			<MetricsSection />
 
-			{/**slider */}
-			<section>
-				<div
-					id='Slider'
-					className='heading_brands'>
-					<h1>Tools &amp; Platforms We Master</h1>
-					<div className='slider'>
-						<div className='slide-track'>
-							{[...partnerLogos, ...partnerLogos, ...partnerLogos].map(
-								(logo, i) => (
-									<div
-										key={i}
-										className='slide'>
-										<img
-											src={logo.src}
-											alt=''
-											style={logo.style}
-										/>
-									</div>
-								),
-							)}
-						</div>
-					</div>
-				</div>
-			</section>
+			{/* AUTOMATION BRAND STRIP */}
+			<AutomationBrands />
 			{/**services */}
 			<section>
 				{' '}
@@ -345,160 +286,103 @@ function Home() {
 
 			<section
 				id='Testonomials'
-				className='services-section'
-				ref={containerRef}>
-				{/* Heading Bahar rakho - yeh pin nahi hoga */}
-				<div className='text-center mb-12'>
-					<h2 className='title'>Our Services</h2>
-					<p className='subtitle'>
-						Production-grade automation, AI, and data engineering —
-						shipped end-to-end.
-					</p>
-				</div>
-
-				<div
-					className='horizontal-wrapper'
-					ref={containerRef}>
-					<div
-						className='s-cards'
-						ref={cardsRef}>
-						{/* Card 1 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<Activity />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> AI AUTOMATION</h5>
-								<p className='s-text'>
-									End-to-end intelligent workflows with AI
-									agents, OpenAI, and LangChain — making
-									decisions, enriching data, and running
-									operations on autopilot.
-								</p>
-							</div>
-						</div>
-						{/**card-2 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<Globe />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> n8n WORKFLOWS</h5>
-								<p className='s-text'>
-									Self-hosted, scalable no-code automations
-									built on n8n — complex branching logic,
-									webhooks, and 400+ integrations without
-									Zapier-tier billing.
-								</p>
-							</div>
-						</div>
-						{/**card-3 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<Code />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> MAKE.COM</h5>
-								<p className='s-text'>
-									Advanced Make.com scenarios with error
-									handling, routers, iterators, and data
-									stores — production-grade automation that
-									never silently fails.
-								</p>
-							</div>
-						</div>
-						{/**card-4 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<FaReact />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> ZAPIER</h5>
-								<p className='s-text'>
-									Fast, reliable Zaps for lead routing,
-									notifications, and cross-app sync — plus
-									Code by Zapier for logic that visual tools
-									can't handle alone.
-								</p>
-							</div>
-						</div>
-						{/**card-5 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<BsLaptop />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> PYTHON DEVELOPMENT</h5>
-								<p className='s-text'>
-									Custom Python services, FastAPI / Django
-									backends, data pipelines, and AI tooling
-									— the engine under every serious automation
-									stack.
-								</p>
-							</div>
-						</div>
-						{/**card-6 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<FaMobileScreen />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> WEB SCRAPING</h5>
-								<p className='s-text'>
-									Enterprise-grade scraping with proxy
-									rotation, anti-bot handling, and structured
-									output — from directory crawls to real-time
-									market data.
-								</p>
-							</div>
-						</div>
-						{/**card-7 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<PiFolderLockFill />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> CRM AUTOMATION</h5>
-								<p className='s-text'>
-									HubSpot, Salesforce, GoHighLevel, Close.io —
-									lead scoring, outreach sequences, and
-									cross-platform syncs that feed the sales
-									engine.
-								</p>
-							</div>
-						</div>
-						{/**card-8 */}
-						<div className='s-card'>
-							<div className='s-icon '>
-								<PiCellTowerDuotone />
-							</div>
-
-							<div className='s-card-content'>
-								<h5> PDF & DATA EXTRACTION</h5>
-								<p className='s-text'>
-									AI-powered extraction of structured data
-									from invoices, contracts, and complex PDFs
-									— 100% accuracy on documents that OCR alone
-									can't touch.
-								</p>
-							</div>
-						</div>
+				className='services-section'>
+				<div className='services-heading'>
+					<div className='text-center mb-12'>
+						<h2 className='title'>Our Services</h2>
+						<p className='subtitle'>
+							Production-grade automation, AI, and data engineering —
+							shipped end-to-end.
+						</p>
+					</div>
+					<div className='s-controls'>
+						<button
+							type='button'
+							aria-label='Previous service'
+							className='s-nav-btn'
+							onClick={() => scrollServicesBy(-1)}>
+							<svg
+								width='18'
+								height='18'
+								viewBox='0 0 24 24'
+								fill='none'
+								stroke='currentColor'
+								strokeWidth='2.5'
+								strokeLinecap='round'
+								strokeLinejoin='round'>
+								<polyline points='15 18 9 12 15 6' />
+							</svg>
+						</button>
+						<button
+							type='button'
+							aria-label='Next service'
+							className='s-nav-btn'
+							onClick={() => scrollServicesBy(1)}>
+							<svg
+								width='18'
+								height='18'
+								viewBox='0 0 24 24'
+								fill='none'
+								stroke='currentColor'
+								strokeWidth='2.5'
+								strokeLinecap='round'
+								strokeLinejoin='round'>
+								<polyline points='9 18 15 12 9 6' />
+							</svg>
+						</button>
 					</div>
 				</div>
 
-				{/* Button bhi bahar */}
-				<div className='s-button  text-center'>
+				<div
+					className='s-marquee'
+					ref={servicesTrackRef}
+					onMouseEnter={() => (servicesPausedRef.current = true)}
+					onMouseLeave={() => (servicesPausedRef.current = false)}
+					onWheel={markServicesInteracting}
+					onTouchStart={() => {
+						servicesPausedRef.current = true
+						markServicesInteracting()
+					}}
+					onTouchEnd={() => (servicesPausedRef.current = false)}
+					onScroll={markServicesInteracting}>
+					{[...SERVICES, ...SERVICES].map((svc, i) => {
+						const SvcIcon = svc.Icon
+						return (
+							<div
+								key={`${svc.slug}-${i}`}
+								className='s-card'
+								role='button'
+								tabIndex={0}
+								onClick={() => navigate(`/services/${svc.slug}`)}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' || e.key === ' ') {
+										e.preventDefault()
+										navigate(`/services/${svc.slug}`)
+									}
+								}}>
+								<div
+									className='s-icon'
+									style={{ color: svc.iconColor }}>
+									<SvcIcon />
+								</div>
+								<div className='s-card-content'>
+									<h5>{svc.title.toUpperCase()}</h5>
+									<p className='s-text'>
+										{svc.shortDescription}
+									</p>
+									<span className='s-card-footer'>
+										Learn more <FaArrowRight size={12} />
+									</span>
+								</div>
+							</div>
+						)
+					})}
+				</div>
+
+				<div className='s-button text-center'>
 					<a
 						href='/Services'
 						rel='noopener noreferrer'>
-						{' '}
 						<button className='s-btn'>Show all Services</button>
 					</a>
 				</div>
@@ -601,16 +485,29 @@ function Home() {
 				</div>
 				<div className='workContainer'>
 					<div className='subWorkContainer'>
-						<div className='subWork'>
+						<div
+							className='subWork'
+							role='button'
+							tabIndex={0}
+							onClick={() => navigate('/portfolio')}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault()
+									navigate('/portfolio')
+								}
+							}}>
 							<div className='workImageBtn'>
 								<img
 									src={ourWork1}
-									alt=''
+									alt='Automated Payouts with n8n + Revolut + Notion'
 									className='workImage'
+									loading='lazy'
+									onError={(e) => {
+										e.currentTarget.onerror = null
+										e.currentTarget.src =
+											"data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%230a0e1a'/%3E%3Crect x='2' y='2' width='796' height='496' rx='16' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ctext x='400' y='260' font-family='system-ui,sans-serif' font-size='22' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EProject Preview%3C/text%3E%3C/svg%3E"
+									}}
 								/>
-								<button className='work-btn gradient-btn'>
-									View Project Details
-								</button>
 							</div>
 							<div className='workDetails'>
 								<h1>
@@ -628,19 +525,42 @@ function Home() {
 									full week of finance ops every month.
 								</p>
 							</div>
+							<button
+								type='button'
+								className='work-btn'
+								onClick={(e) => {
+									e.stopPropagation()
+									navigate('/portfolio')
+								}}>
+								View Project Details{' '}
+								<FaArrowRight size={12} />
+							</button>
 						</div>
 					</div>
 					<div className='subWorkContainer'>
-						<div className='subWork'>
+						<div
+							className='subWork'
+							role='button'
+							tabIndex={0}
+							onClick={() => navigate('/portfolio')}
+							onKeyDown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault()
+									navigate('/portfolio')
+								}
+							}}>
 							<div className='workImageBtn'>
 								<img
 									src={ourWork2}
-									alt=''
+									alt='Slack File Downloader + AI PDF Extraction'
 									className='workImage'
+									loading='lazy'
+									onError={(e) => {
+										e.currentTarget.onerror = null
+										e.currentTarget.src =
+											"data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%230a0e1a'/%3E%3Crect x='2' y='2' width='796' height='496' rx='16' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ctext x='400' y='260' font-family='system-ui,sans-serif' font-size='22' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EProject Preview%3C/text%3E%3C/svg%3E"
+									}}
 								/>
-								<button className='work-btn gradient-btn'>
-									View Project Details
-								</button>
 							</div>
 							<div className='workDetails'>
 								<h1>
@@ -658,6 +578,16 @@ function Home() {
 									20 minutes of work closes in 30 seconds.
 								</p>
 							</div>
+							<button
+								type='button'
+								className='work-btn'
+								onClick={(e) => {
+									e.stopPropagation()
+									navigate('/portfolio')
+								}}>
+								View Project Details{' '}
+								<FaArrowRight size={12} />
+							</button>
 						</div>
 					</div>
 				</div>

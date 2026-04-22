@@ -12,11 +12,11 @@ import { HiOutlineShare } from 'react-icons/hi'
 import { MdCellTower } from 'react-icons/md'
 import { GiBullseye } from 'react-icons/gi'
 import { TbArrowsCross } from 'react-icons/tb'
-import Slider from '../slider'
 import { useNavigate } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa'
 import MetricsSection from './MetricsSection'
 import FinalCTA from './FinalCTA'
+import AutomationBrands from './AutomationBrands'
 
 function Services() {
 	const navigate = useNavigate()
@@ -103,10 +103,10 @@ function Services() {
 						<span className='tt-divider'></span>
 						<span>7-day average delivery</span>
 					</div>
-
-					<Slider />
 				</div>
 			</section>
+
+			<AutomationBrands title='The Stack We Build On' />
 
 			<MetricsSection />
 			{/** why choose techticks */}
