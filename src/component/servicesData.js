@@ -311,10 +311,16 @@ export const SERVICES = [
 		Icon: SiHubspot,
 		iconColor: '#ff7a59',
 		shortDescription:
-			'HubSpot, Salesforce, GoHighLevel, Close.io — lead scoring, outreach sequences, and cross-platform syncs that feed the sales engine.',
-		heroBadges: ['HubSpot', 'Salesforce', 'GoHighLevel', 'Close.io'],
+			'HubSpot, Salesforce, Zoho, GoHighLevel, Close.io — lead scoring, outreach sequences, deal-won automations, and cross-platform syncs that feed the sales engine.',
+		heroBadges: [
+			'HubSpot',
+			'Salesforce',
+			'Zoho CRM',
+			'GoHighLevel',
+			'Close.io',
+		],
 		longDescription:
-			'Your CRM should be an active operator, not a read-only database. We automate lead capture, scoring, enrichment, and outreach across HubSpot, GoHighLevel, Salesforce, and Close.io — so your sales team only touches deals that are ready to close.',
+			'Your CRM should be an active operator, not a read-only database. We automate lead capture, scoring, enrichment, outreach, and deal-won handoffs across HubSpot, Zoho CRM, Salesforce, GoHighLevel, and Close.io — so your sales team only touches deals that are ready to close, and operations kick off automatically the moment they do.',
 		features: [
 			{
 				Icon: FaRocket,
@@ -324,7 +330,12 @@ export const SERVICES = [
 			{
 				Icon: FaExchangeAlt,
 				title: 'Cross-Platform CRM Sync',
-				body: 'Keep HubSpot, GoHighLevel, Close.io, and Salesforce in sync with each other — or with Notion, Airtable, and Google Sheets — using webhook-driven automations that never double-write or lose data.',
+				body: 'Keep HubSpot, Zoho CRM, GoHighLevel, Close.io, and Salesforce in sync with each other — or with Notion, Airtable, and Google Sheets — using webhook-driven automations that never double-write or lose data.',
+			},
+			{
+				Icon: FaCogs,
+				title: 'Zoho CRM + Zoho Projects Automation',
+				body: 'Deal-won in Zoho CRM → auto-create a fully structured Zoho Project with extracted scope, dates, standardised task lists, and line-item subtasks. Cuts 30–60 minutes of manual project setup per deal down to under a minute.',
 			},
 			{
 				Icon: FaBolt,
@@ -341,11 +352,13 @@ export const SERVICES = [
 			'Reps only touch deals ready to close',
 			'Zero duplicate contacts across systems',
 			'Outreach firing 24/7 on behavior + score',
+			'Deal-won → fully structured project in under 60 seconds',
 			'AI-scored lead routing with full audit trail',
 		],
 		useCases: [
 			'Inbound lead → enrich → score → route to rep',
-			'HubSpot ↔ Close.io bidirectional sync',
+			'Zoho CRM deal-won → auto-create Zoho Project with AI-extracted scope',
+			'HubSpot ↔ Close.io (or Zoho ↔ HubSpot) bidirectional sync',
 			'Booked meeting → prep email + Notion doc auto-created',
 			'Cold list → automated multi-channel cadence',
 		],
