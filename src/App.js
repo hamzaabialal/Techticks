@@ -8,6 +8,7 @@ import ContactUs from './component/contactUs'
 import About from './component/About'
 import Automations from './component/Amazon'
 import Services from './component/Services'
+import ServiceDetail from './component/ServiceDetail'
 import Portfolio from './component/portfolio'
 import Header from './component/header'
 import FooterSection from './component/Footer'
@@ -39,6 +40,10 @@ function App() {
 					<Route
 						path='/services'
 						element={<Services />}
+					/>
+					<Route
+						path='/services/:slug'
+						element={<ServiceDetail />}
 					/>
 					<Route
 						path='/portfolio'
