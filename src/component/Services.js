@@ -439,9 +439,11 @@ function Services() {
 					<p class='swwd-desc'>
 						Your CRM should be an active operator, not a read-only
 						database.<br></br> We automate lead capture, scoring,
-						enrichment, and outreach across HubSpot, GoHighLevel,
-						Salesforce, and Close.io — so your sales team only
-						touches deals that are ready to close.
+						enrichment, outreach, and deal-won handoffs across
+						HubSpot, Zoho CRM, GoHighLevel, Salesforce, and
+						Close.io — so your sales team only touches deals that
+						are ready to close, and operations kick off the second
+						they do.
 					</p>
 					<div class='swwd-subcards'>
 						<div class='card'>
@@ -456,11 +458,21 @@ function Services() {
 						<div class='card'>
 							<h5>Cross-Platform CRM Sync</h5>
 							<p style={{ color: 'gray' }}>
-								Keep HubSpot, GoHighLevel, Close.io, and
-								Salesforce in sync with each other — or with
-								Notion, Airtable, and Google Sheets — using
-								webhook-driven automations that don't double-
-								write or lose data.
+								Keep HubSpot, Zoho CRM, GoHighLevel, Close.io,
+								and Salesforce in sync with each other — or
+								with Notion, Airtable, and Google Sheets —
+								using webhook-driven automations that don't
+								double-write or lose data.
+							</p>
+						</div>
+						<div class='card'>
+							<h5>Zoho CRM + Zoho Projects Automation</h5>
+							<p style={{ color: 'gray' }}>
+								Deal-won in Zoho CRM → auto-create a fully
+								structured Zoho Project with GPT-extracted
+								scope, dates, standardised task lists, and
+								line-item subtasks. 30–60 minutes of manual
+								setup collapses to under a minute.
 							</p>
 						</div>
 						<div class='card'>

@@ -68,6 +68,33 @@ const projects = [
 			'Deployed as a Django backend with a clean REST layer, token-usage monitoring, and streaming response support. Every agent run is observable end-to-end — tool calls, intermediate reasoning, and final output are all logged and replayable.',
 		stack: 'Stack: Django, Agno, OpenAI + Claude, PostgreSQL, Redis, Docker.',
 	},
+	{
+		category: 'Zoho × n8n × GPT-4.1',
+		title: 'Deal-Won → AI PDF → Auto Project Creation',
+		image: encodePath('/Workflow 1.jpeg'),
+		left: "When a deal closes in Zoho CRM, an n8n workflow pulls the attached quote PDF and feeds it to GPT-4.1 Vision — which extracts scope of works, quantity breakdowns, product codes, locations, and project dates without a single manual field. A new Zoho Project spins up with the correct name, description, start, and end dates in under 60 seconds.",
+		right:
+			'GPT-4.1 handles unstructured construction quotes; project dates fall back to a 6-month window if the PDF omits them. The deal stage flips to "PO Received (GRN)", and the full scope payload is handed to a sub-workflow that generates one task per line item with an interactive quantity-tracking table. What used to take 30–60 minutes per project now runs end-to-end with zero transcription errors.',
+		stack: 'Stack: n8n Cloud, Zoho CRM, Zoho Projects, OpenAI GPT-4.1 Vision, Zoho OAuth2.',
+	},
+	{
+		category: 'Zoho Projects Automation',
+		title: 'Scope-Aware Task Generator for Zoho Projects',
+		image: encodePath('/Workflow 2.jpeg'),
+		left: "Triggered by the parent workflow, this automation provisions five standardised task lists across every new Zoho Project — Admin, Project Management, Install Prep, Stock & Inventory Prep, and Site Measure & Walkthrough — and populates each with the right tasks and subtasks in sequence. Stock milestones auto-calculate backwards from the project's end date (10 / 8 / 2 weeks out).",
+		right:
+			'For every scope line item extracted from the quote, a dedicated subtask is created under Project Management with a formatted quantity breakdown table (area, quantity, used, DIFF). An Accessories Used log is embedded directly in the task description for on-site consumable tracking. Replaces 45–60 minutes of manual setup with identical, bulletproof structure across every job.',
+		stack: 'Stack: n8n, Zoho Projects API, parallel task-list creation, dynamic date math.',
+	},
+	{
+		category: 'Scheduled Sync · Zoho',
+		title: 'Live Quantity Tracking Sync for Project Tasks',
+		image: encodePath('/Workflow 3.jpeg'),
+		left: "Every minute, the workflow authenticates with Zoho, pulls all active projects, and loops through their Project Management tasks. It parses the raw HTML of each task description to find quantity breakdown tables — skipping tasks without one, or with an empty table, to avoid wasted API calls.",
+		right:
+			'For each valid table, it extracts the planned quantities and any USED values logged by the install team, recalculates the DIFF on every row, and PATCHes the updated HTML back to the task. Used values render in green the moment they\'re entered; outstanding rows keep the placeholder formula — so the crew always sees live remaining quantities.',
+		stack: 'Stack: n8n scheduled trigger, Zoho Projects API (PATCH), HTML table parsing.',
+	},
 ]
 
 function Portfolio() {
